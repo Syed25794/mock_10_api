@@ -19,11 +19,13 @@ app.get("/", (req, res) => {
   res.send("Welcome to Home Page.");
 });
 
-app.listen(process.env.LOCALHOST_PORT, async () => {
+const LOCALHOST_PORT = process.env.LOCALHOST_PORT || 8000
+
+app.listen(LOCALHOST_PORT, async () => {
   try {
     await connection;
     console.log("Connected");
-    console.log(`Server is runnning on the localhost port : 8080`);
+    console.log(`Server is runnning on the localhost port : ${LOCALHOST_PORT}`);
   } catch (err) {
     console.log(err);
     console.log("Something went wrong in connecting with database.");
