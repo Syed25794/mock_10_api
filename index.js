@@ -1,33 +1,36 @@
 const express = require("express");
-const cors = require("cors");
 
 const connection = require("./config/database");
-const userRouter = require("./routes/userRoutes.routes");
+
+const notesRouters = require("./routes/notes.routes");
 
 const app = express();
 
-require("dotenv").config();
-
-app.use(cors())
-
-
 app.use(express.json());
 
-app.use("/user",userRouter);
+app.use("/notes",notesRouters);
 
-app.get("/", (req, res) => {
-  res.send("Welcome to Home Page.");
+require("dotenv").config();
+
+
+const {LOCALHOST_PORT} = process.env || 8000;
+
+
+app.get("/",(req,res)=>{
+    res.send("<h1>Welcome to Home Page.</h1>");
 });
 
-const LOCALHOST_PORT = process.env.LOCALHOST_PORT || 8000
 
-app.listen(LOCALHOST_PORT, async () => {
-  try {
-    await connection;
-    console.log("Connected");
-    console.log(`Server is runnning on the localhost port : ${LOCALHOST_PORT}`);
-  } catch (err) {
-    console.log(err);
-    console.log("Something went wrong in connecting with database.");
-  }
+
+app.listen(LOCALHOST_PORT,async()=>{
+    try{
+        await connection;
+        console.log("Connected");
+        console.log(`Server is running on the Localhost port : ${LOCALHOST_PORT}`);
+    }catch(err){
+        console.log("Something went wrong in connection with database.");
+        console.log(err);
+    }
 });
+
+
